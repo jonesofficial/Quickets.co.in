@@ -21,12 +21,20 @@ export default function HeroBus() {
       "
         >
             {/* ================= BACKGROUND EFFECT ================= */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
+
+            <div style={{ width: '100%', height: '600px', position: 'relative' }}>
                 <LightPillar
-                    topColor="#ffe047"
-                    bottomColor="#f2cd1c"
-                    intensity={1.3}
-                    glowAmount={0.001}
+                    topColor="#5227FF"
+                    bottomColor="#FF9FFC"
+                    intensity={1.0}
+                    rotationSpeed={0.3}
+                    glowAmount={0.005}
+                    pillarWidth={3.0}
+                    pillarHeight={0.4}
+                    noiseIntensity={0.5}
+                    pillarRotation={0}
+                    interactive={false}
+                    mixBlendMode="normal"
                 />
             </div>
 
