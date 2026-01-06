@@ -1,21 +1,34 @@
-import { useRef, useEffect, useState } from 'react';
-import * as THREE from 'three';
-import './LightPillar.css';
+import { useRef, useEffect } from "react";
+import * as THREE from "three";
+import "./LightPillar.css";
+
+/* ======================================================
+   MOBILE DETECTION (SAFE)
+====================================================== */
+const isMobileDevice = () => {
+  const hasTouch =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  const smallScreen = window.innerWidth < 768;
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
+  return hasTouch && (smallScreen || coarsePointer);
+};
 
 const LightPillar = ({
-  topColor = '#5227FF',
-  bottomColor = '#FF9FFC',
-  intensity = 1.0,
-  rotationSpeed = 0.3,
-  interactive = false,
-  className = '',
-  glowAmount = 0.005,
-  pillarWidth = 3.0,
-  pillarHeight = 0.4,
-  noiseIntensity = 0.5,
-  mixBlendMode = 'screen',
-  pillarRotation = 0
-}) => {
+                       topColor = "#5227FF",
+                       bottomColor = "#FF9FFC",
+                       intensity = 1.0,
+                       rotationSpeed = 0.3,
+                       interactive = false,
+                       className = "",
+                       glowAmount = 0.005,
+                       pillarWidth = 3.0,
+                       pillarHeight = 0.4,
+                       noiseIntensity = 0.5,
+                       mixBlendMode = "screen",
+                       pillarRotation = 0,
+                     }) => {
   const containerRef = useRef(null);
   const rafRef = useRef(null);
   const rendererRef = useRef(null);
@@ -25,303 +38,205 @@ const LightPillar = ({
   const geometryRef = useRef(null);
   const mouseRef = useRef(new THREE.Vector2(0, 0));
   const timeRef = useRef(0);
-  const [webGLSupported, setWebGLSupported] = useState(true);
-
-  // Check WebGL support
-  useEffect(() => {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (!gl) {
-      setWebGLSupported(false);
-      console.warn('WebGL is not supported in this browser');
-    }
-  }, []);
 
   useEffect(() => {
-    if (!containerRef.current || !webGLSupported) return;
+    if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const mobile = isMobileDevice();
 
-    // Scene setup
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    cameraRef.current = camera;
+    let renderer, scene, camera, material, geometry;
 
-    let renderer;
     try {
+      /* ================= SCENE ================= */
+      scene = new THREE.Scene();
+      sceneRef.current = scene;
+
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      cameraRef.current = camera;
+
       renderer = new THREE.WebGLRenderer({
         antialias: false,
         alpha: true,
-        powerPreference: 'high-performance',
-        precision: 'lowp',
+        powerPreference: "high-performance",
+        precision: "lowp",
         stencil: false,
-        depth: false
+        depth: false,
       });
-    } catch (error) {
-      console.error('Failed to create WebGL renderer:', error);
-      setWebGLSupported(false);
-      return;
-    }
 
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(
+          mobile ? 1 : Math.min(window.devicePixelRatio, 2)
+      );
 
-    // Convert hex colors to RGB
-    const parseColor = hex => {
-      const color = new THREE.Color(hex);
-      return new THREE.Vector3(color.r, color.g, color.b);
-    };
+      container.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
 
-    // Shader material
-    const vertexShader = `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4(position, 1.0);
-      }
-    `;
+      /* ================= SHADER ================= */
+      const parseColor = (hex) => {
+        const c = new THREE.Color(hex);
+        return new THREE.Vector3(c.r, c.g, c.b);
+      };
 
-    const fragmentShader = `
-      uniform float uTime;
-      uniform vec2 uResolution;
-      uniform vec2 uMouse;
-      uniform vec3 uTopColor;
-      uniform vec3 uBottomColor;
-      uniform float uIntensity;
-      uniform bool uInteractive;
-      uniform float uGlowAmount;
-      uniform float uPillarWidth;
-      uniform float uPillarHeight;
-      uniform float uNoiseIntensity;
-      uniform float uPillarRotation;
-      varying vec2 vUv;
+      material = new THREE.ShaderMaterial({
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float uTime;
+          uniform vec2 uResolution;
+          uniform vec2 uMouse;
+          uniform vec3 uTopColor;
+          uniform vec3 uBottomColor;
+          uniform float uIntensity;
+          uniform bool uInteractive;
+          uniform float uGlowAmount;
+          uniform float uPillarWidth;
+          uniform float uPillarHeight;
+          uniform float uNoiseIntensity;
+          uniform float uPillarRotation;
+          varying vec2 vUv;
 
-      const float PI = 3.141592653589793;
-      const float EPSILON = 0.001;
-      const float E = 2.71828182845904523536;
-      const float HALF = 0.5;
+          const float PI = 3.141592653589793;
+          const float EPSILON = 0.001;
+          const float E = 2.71828182845904523536;
+          const float HALF = 0.5;
 
-      mat2 rot(float angle) {
-        float s = sin(angle);
-        float c = cos(angle);
-        return mat2(c, -s, s, c);
-      }
+          mat2 rot(float a) {
+            float s = sin(a);
+            float c = cos(a);
+            return mat2(c, -s, s, c);
+          }
 
-      // Procedural noise function
-      float noise(vec2 coord) {
-        float G = E;
-        vec2 r = (G * sin(G * coord));
-        return fract(r.x * r.y * (1.0 + coord.x));
-      }
+          float noise(vec2 p) {
+            float G = E;
+            vec2 r = (G * sin(G * p));
+            return fract(r.x * r.y * (1.0 + p.x));
+          }
 
-      // Apply layered wave deformation to position
-      vec3 applyWaveDeformation(vec3 pos, float timeOffset) {
-        float frequency = 1.0;
-        float amplitude = 1.0;
-        vec3 deformed = pos;
+          vec3 applyWave(vec3 p, float t) {
+            float f = 1.0;
+            float a = 1.0;
+            for (float i = 0.0; i < 4.0; i++) {
+              p.xz *= rot(0.4);
+              vec3 o = cos(p.zxy * f - t * i * 2.0);
+              p += o * a;
+              f *= 2.0;
+              a *= HALF;
+            }
+            return p;
+          }
 
-        for(float i = 0.0; i < 4.0; i++) {
-          deformed.xz *= rot(0.4);
-          float phase = timeOffset * i * 2.0;
-          vec3 oscillation = cos(deformed.zxy * frequency - phase);
-          deformed += oscillation * amplitude;
-          frequency *= 2.0;
-          amplitude *= HALF;
-        }
-        return deformed;
-      }
+          float smin(float a, float b, float k) {
+            float h = max(k - abs(a - b), 0.0);
+            return min(a, b) - h * h * 0.25 / k;
+          }
 
-      // Polynomial smooth blending between two values
-      float blendMin(float a, float b, float k) {
-        float scaledK = k * 4.0;
-        float h = max(scaledK - abs(a - b), 0.0);
-        return min(a, b) - h * h * 0.25 / scaledK;
-      }
+          void main() {
+            vec2 frag = vUv * uResolution;
+            vec2 uv = (frag * 2.0 - uResolution) / uResolution.y;
 
-      float blendMax(float a, float b, float k) {
-        return -blendMin(-a, -b, k);
-      }
+            uv *= rot(uPillarRotation * PI / 180.0);
 
-      void main() {
-        vec2 fragCoord = vUv * uResolution;
-        vec2 uv = (fragCoord * 2.0 - uResolution) / uResolution.y;
+            vec3 ro = vec3(0.0, 0.0, -10.0);
+            vec3 rd = normalize(vec3(uv, 1.0));
 
-        // Apply 2D rotation to UV coordinates
-        float rotAngle = uPillarRotation * PI / 180.0;
-        uv *= rot(rotAngle);
+            float d = 0.1;
+            vec3 col = vec3(0.0);
 
-        vec3 origin = vec3(0.0, 0.0, -10.0);
-        vec3 direction = normalize(vec3(uv, 1.0));
+            for (float i = 0.0; i < 100.0; i++) {
+              vec3 p = ro + rd * d;
+              vec3 q = p;
+              q.y *= uPillarHeight;
+              q = applyWave(q + vec3(0.0, uTime, 0.0), uTime);
 
-        float maxDepth = 50.0;
-        float depth = 0.1;
+              float f = length(cos(q.xz)) - 0.2;
+              float r = length(p.xz) - uPillarWidth;
+              f = abs(smin(r, f, 1.0)) * 0.15 + 0.01;
 
-        mat2 rotX = rot(uTime * 0.3);
-        if(uInteractive && length(uMouse) > 0.0) {
-          rotX = rot(uMouse.x * PI * 2.0);
-        }
+              vec3 g = mix(uBottomColor, uTopColor, smoothstep(15.0, -15.0, p.x));
+              col += g * pow(1.0 / f, 1.0);
 
-        vec3 color = vec3(0.0);
+              if (f < EPSILON || d > 50.0) break;
+              d += f;
+            }
 
-        for(float i = 0.0; i < 100.0; i++) {
-          vec3 pos = origin + direction * depth;
-          pos.xz *= rotX;
+            col = tanh(col * uGlowAmount / (uPillarWidth / 3.0));
+            col -= noise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;
 
-          // Apply vertical scaling and wave deformation
-          vec3 deformed = pos;
-          deformed.y *= uPillarHeight;
-          deformed = applyWaveDeformation(deformed + vec3(0.0, uTime, 0.0), uTime);
+            gl_FragColor = vec4(col * uIntensity, 1.0);
+          }
+        `,
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: {
+            value: new THREE.Vector2(
+                container.clientWidth,
+                container.clientHeight
+            ),
+          },
+          uMouse: { value: mouseRef.current },
+          uTopColor: { value: parseColor(topColor) },
+          uBottomColor: { value: parseColor(bottomColor) },
+          uIntensity: { value: intensity },
+          uInteractive: { value: interactive },
+          uGlowAmount: { value: glowAmount },
+          uPillarWidth: { value: pillarWidth },
+          uPillarHeight: { value: pillarHeight },
+          uNoiseIntensity: { value: noiseIntensity },
+          uPillarRotation: { value: pillarRotation },
+        },
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+      });
 
-          // Calculate distance field using cosine pattern
-          vec2 cosinePair = cos(deformed.xz);
-          float fieldDistance = length(cosinePair) - 0.2;
+      materialRef.current = material;
 
-          // Radial boundary constraint
-          float radialBound = length(pos.xz) - uPillarWidth;
-          fieldDistance = blendMax(radialBound, fieldDistance, 1.0);
-          fieldDistance = abs(fieldDistance) * 0.15 + 0.01;
+      geometry = new THREE.PlaneGeometry(2, 2);
+      geometryRef.current = geometry;
 
-          vec3 gradient = mix(uBottomColor, uTopColor, smoothstep(15.0, -15.0, pos.x));
-          color += gradient * pow(1.0 / fieldDistance, 1.0);
+      scene.add(new THREE.Mesh(geometry, material));
 
-          if(fieldDistance < EPSILON || depth > maxDepth) break;
-          depth += fieldDistance;
-        }
+      /* ================= RENDER ================= */
 
-        // Normalize by pillar width to maintain consistent glow regardless of size
-        float widthNormalization = uPillarWidth / 3.0;
-        color = tanh(color * uGlowAmount / widthNormalization);
+      const renderOnce = () => {
+        renderer.render(scene, camera);
+      };
 
-        // Add noise postprocessing
-        float rnd = noise(gl_FragCoord.xy);
-        color -= rnd / 15.0 * uNoiseIntensity;
-
-        gl_FragColor = vec4(color * uIntensity, 1.0);
-      }
-    `;
-
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uResolution: { value: new THREE.Vector2(width, height) },
-        uMouse: { value: mouseRef.current },
-        uTopColor: { value: parseColor(topColor) },
-        uBottomColor: { value: parseColor(bottomColor) },
-        uIntensity: { value: intensity },
-        uInteractive: { value: interactive },
-        uGlowAmount: { value: glowAmount },
-        uPillarWidth: { value: pillarWidth },
-        uPillarHeight: { value: pillarHeight },
-        uNoiseIntensity: { value: noiseIntensity },
-        uPillarRotation: { value: pillarRotation }
-      },
-      transparent: true,
-      depthWrite: false,
-      depthTest: false
-    });
-    materialRef.current = material;
-
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    geometryRef.current = geometry;
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    // Mouse interaction - throttled for performance
-    let mouseMoveTimeout = null;
-    const handleMouseMove = event => {
-      if (!interactive) return;
-
-      if (mouseMoveTimeout) return;
-
-      mouseMoveTimeout = window.setTimeout(() => {
-        mouseMoveTimeout = null;
-      }, 16); // ~60fps throttle
-
-      const rect = container.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      mouseRef.current.set(x, y);
-    };
-
-    if (interactive) {
-      container.addEventListener('mousemove', handleMouseMove, { passive: true });
-    }
-
-    // Animation loop with fixed timestep
-    let lastTime = performance.now();
-    const targetFPS = 60;
-    const frameTime = 1000 / targetFPS;
-
-    const animate = currentTime => {
-      if (!materialRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return;
-
-      const deltaTime = currentTime - lastTime;
-
-      if (deltaTime >= frameTime) {
+      const animate = () => {
         timeRef.current += 0.016 * rotationSpeed;
-        materialRef.current.uniforms.uTime.value = timeRef.current;
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
-        lastTime = currentTime - (deltaTime % frameTime);
+        material.uniforms.uTime.value = timeRef.current;
+        renderer.render(scene, camera);
+        rafRef.current = requestAnimationFrame(animate);
+      };
+
+      // 📱 MOBILE → static
+      if (mobile) {
+        renderOnce();
+      } else {
+        rafRef.current = requestAnimationFrame(animate);
       }
+    } catch (err) {
+      console.warn("LightPillar disabled:", err);
+    }
 
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-
-    // Handle resize with debouncing
-    let resizeTimeout = null;
-    const handleResize = () => {
-      if (resizeTimeout) {
-        clearTimeout(resizeTimeout);
-      }
-
-      resizeTimeout = window.setTimeout(() => {
-        if (!rendererRef.current || !materialRef.current || !containerRef.current) return;
-        const newWidth = containerRef.current.clientWidth;
-        const newHeight = containerRef.current.clientHeight;
-        rendererRef.current.setSize(newWidth, newHeight);
-        materialRef.current.uniforms.uResolution.value.set(newWidth, newHeight);
-      }, 150);
-    };
-
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    // Cleanup
+    /* ================= CLEANUP ================= */
     return () => {
-      window.removeEventListener('resize', handleResize);
-      if (interactive) {
-        container.removeEventListener('mousemove', handleMouseMove);
-      }
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-      if (rendererRef.current) {
-        rendererRef.current.dispose();
-        rendererRef.current.forceContextLoss();
-        if (container.contains(rendererRef.current.domElement)) {
-          container.removeChild(rendererRef.current.domElement);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (renderer) {
+        renderer.dispose();
+        renderer.forceContextLoss();
+        if (container.contains(renderer.domElement)) {
+          container.removeChild(renderer.domElement);
         }
       }
-      if (materialRef.current) {
-        materialRef.current.dispose();
-      }
-      if (geometryRef.current) {
-        geometryRef.current.dispose();
-      }
-
-      rendererRef.current = null;
-      materialRef.current = null;
-      sceneRef.current = null;
-      cameraRef.current = null;
-      geometryRef.current = null;
-      rafRef.current = null;
+      material?.dispose();
+      geometry?.dispose();
     };
   }, [
     topColor,
@@ -334,160 +249,15 @@ const LightPillar = ({
     pillarHeight,
     noiseIntensity,
     pillarRotation,
-    webGLSupported
   ]);
 
-  if (!webGLSupported) {
-    return (
-      <div className={`light-pillar-fallback ${className}`} style={{ mixBlendMode }}>
-        WebGL not supported
-      </div>
-    );
-  }
-
-  return <div ref={containerRef} className={`light-pillar-container ${className}`} style={{ mixBlendMode }} />;
+  return (
+      <div
+          ref={containerRef}
+          className={`light-pillar-container ${className}`}
+          style={{ mixBlendMode }}
+      />
+  );
 };
 
 export default LightPillar;
-
-// import { useRef, useEffect } from "react";
-// import * as THREE from "three";
-// import "./LightPillar.css";
-//
-// const LightPillar = ({
-//                        topColor = "#5227FF",
-//                        bottomColor = "#FF9FFC",
-//                        intensity = 1.0,
-//                        rotationSpeed = 0.3,
-//                        glowAmount = 0.005,
-//                        pillarWidth = 3.0,
-//                        pillarHeight = 0.4,
-//                        noiseIntensity = 0.5,
-//                        mixBlendMode = "screen",
-//                        pillarRotation = 0,
-//                      }) => {
-//   const containerRef = useRef(null);
-//   const rafRef = useRef(null);
-//   const lastFrameRef = useRef(performance.now());
-//   const slowFramesRef = useRef(0);
-//
-//   useEffect(() => {
-//     const container = containerRef.current;
-//     if (!container) return;
-//
-//     let renderer, scene, camera, material, geometry;
-//
-//     try {
-//       /* ================= THREE SETUP ================= */
-//       scene = new THREE.Scene();
-//       camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-//
-//       renderer = new THREE.WebGLRenderer({
-//         alpha: true,
-//         antialias: false,
-//         powerPreference: "high-performance",
-//         precision: "lowp",
-//         depth: false,
-//         stencil: false,
-//       });
-//
-//       renderer.setSize(container.clientWidth, container.clientHeight);
-//       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-//       container.appendChild(renderer.domElement);
-//
-//       material = new THREE.ShaderMaterial({
-//         transparent: true,
-//         depthWrite: false,
-//         depthTest: false,
-//         uniforms: {
-//           uTime: { value: 0 },
-//           uTopColor: { value: new THREE.Color(topColor) },
-//           uBottomColor: { value: new THREE.Color(bottomColor) },
-//           uIntensity: { value: intensity },
-//           uGlowAmount: { value: glowAmount },
-//           uPillarWidth: { value: pillarWidth },
-//           uPillarHeight: { value: pillarHeight },
-//           uNoiseIntensity: { value: noiseIntensity },
-//           uPillarRotation: { value: pillarRotation },
-//         },
-//         vertexShader: `
-//           varying vec2 vUv;
-//           void main() {
-//             vUv = uv;
-//             gl_Position = vec4(position, 1.0);
-//           }
-//         `,
-//         fragmentShader: `
-//           varying vec2 vUv;
-//           uniform vec3 uTopColor;
-//           uniform vec3 uBottomColor;
-//           uniform float uIntensity;
-//           uniform float uGlowAmount;
-//           uniform float uPillarWidth;
-//
-//           void main() {
-//             vec2 uv = vUv * 2.0 - 1.0;
-//             float d = abs(uv.x) * uPillarWidth;
-//             float glow = exp(-d * 6.0);
-//
-//             vec3 color = mix(uBottomColor, uTopColor, vUv.y);
-//             color *= glow * uGlowAmount * 600.0;
-//
-//             gl_FragColor = vec4(color * uIntensity, glow);
-//           }
-//         `,
-//       });
-//
-//       geometry = new THREE.PlaneGeometry(2, 2);
-//       const mesh = new THREE.Mesh(geometry, material);
-//       scene.add(mesh);
-//
-//       /* ================= ANIMATION WITH LAG DETECTION ================= */
-//       const animate = (time) => {
-//         const delta = time - lastFrameRef.current;
-//         lastFrameRef.current = time;
-//
-//         // Detect lag (over ~30fps)
-//         if (delta > 40) {
-//           slowFramesRef.current += 1;
-//         } else {
-//           slowFramesRef.current = 0;
-//         }
-//
-//         // Stop animation if lag persists
-//         if (slowFramesRef.current > 8) {
-//           renderer.render(scene, camera);
-//           return;
-//         }
-//
-//         material.uniforms.uTime.value += 0.016 * rotationSpeed;
-//         renderer.render(scene, camera);
-//         rafRef.current = requestAnimationFrame(animate);
-//       };
-//
-//       rafRef.current = requestAnimationFrame(animate);
-//     } catch (err) {
-//       console.warn("LightPillar disabled:", err);
-//     }
-//
-//     return () => {
-//       cancelAnimationFrame(rafRef.current);
-//       renderer?.dispose();
-//       material?.dispose();
-//       geometry?.dispose();
-//       if (renderer?.domElement && container.contains(renderer.domElement)) {
-//         container.removeChild(renderer.domElement);
-//       }
-//     };
-//   }, []);
-//
-//   return (
-//       <div
-//           ref={containerRef}
-//           className="light-pillar-container"
-//           style={{ mixBlendMode }}
-//       />
-//   );
-// };
-//
-// export default LightPillar;
