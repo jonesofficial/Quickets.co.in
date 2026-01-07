@@ -235,6 +235,18 @@ body::-webkit-scrollbar {
 .animate-fadeIn {
     animation: fadeIn 0.6s ease-out forwards;
 }
+@keyframes breathe {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35);
+    }
+    50% {
+        box-shadow: 0 14px 40px rgba(37, 211, 102, 0.55);
+    }
+}
+
+.breathe {
+    animation: breathe 3s ease-in-out infinite;
+}
 
 
 

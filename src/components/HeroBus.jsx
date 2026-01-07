@@ -230,19 +230,69 @@ export default function HeroBus() {
                         Book tickets using WhatsApp
                     </p>
 
+            {/*        <a*/}
+            {/*            href="https://wa.me/91XXXXXXXXXX?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"*/}
+            {/*            className="*/}
+            {/*  mt-8 inline-flex items-center gap-2*/}
+            {/*  bg-[#25D366] text-black*/}
+            {/*  px-8 py-4 rounded-xl font-semibold text-lg*/}
+            {/*  transition-all duration-300*/}
+            {/*  hover:scale-105 hover:shadow-[0_0_25px_rgba(37,211,102,0.6)]*/}
+            {/*"*/}
+            {/*        >*/}
+            {/*            <FaWhatsapp />*/}
+            {/*            Book on WhatsApp*/}
+            {/*        </a>*/}
+
                     <a
                         href="https://wa.me/91XXXXXXXXXX?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
                         className="
-              mt-8 inline-flex items-center gap-2
-              bg-[#25D366] text-black
-              px-8 py-4 rounded-xl font-semibold text-lg
-              transition-all duration-300
-              hover:scale-105 hover:shadow-[0_0_25px_rgba(37,211,102,0.6)]
-            "
+    relative overflow-hidden
+    mt-8 inline-flex items-center gap-3
+    bg-[#25D366] text-black
+    px-9 py-4 rounded-2xl font-semibold text-lg
+    transition-transform duration-150 ease-out
+    active:scale-[0.96]
+    focus:outline-none
+    group
+    shadow-[0_10px_30px_rgba(37,211,102,0.35)]
+  "
                     >
-                        <FaWhatsapp />
-                        Book on WhatsApp
+                        {/* RIPPLE LAYER */}
+                        <span
+                            className="
+      absolute inset-0
+      bg-white/30
+      scale-0
+      group-active:scale-100
+      transition-transform duration-500
+      rounded-full
+    "
+                        />
+
+                        {/* ICON */}
+                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:-rotate-6 group-active:scale-90" />
+
+                        {/* TEXT */}
+                        <span className="relative z-10">
+    Book on WhatsApp
+  </span>
+
+                        {/* GLOW */}
+                        <span
+                            className="
+                              pointer-events-none
+                              absolute -inset-1
+                              rounded-2xl
+                              opacity-0
+                              group-hover:opacity-100
+                              transition-opacity duration-300
+                              blur-xl
+                              bg-[#25D366]/50
+                            "
+                        />
                     </a>
+
 
                     <p className="mt-2 text-sm opacity-60">
                         You chat. We book.
