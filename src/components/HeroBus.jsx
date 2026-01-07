@@ -175,6 +175,8 @@
 import bus from "../assets/bus.png";
 import heroBg from "../assets/hero-bg.jpg";
 import { FaWhatsapp } from "react-icons/fa";
+import WhatsAppCTA from "@/components/WhatsAppCTA";
+
 
 export default function HeroBus() {
     return (
@@ -214,24 +216,8 @@ export default function HeroBus() {
                         Book tickets using WhatsApp
                     </p>
 
-                    <a
-                        href="https://wa.me/918300984737?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
-                        className="relative mt-8 inline-flex items-center gap-3 bg-[#25D366] text-black px-9 py-4 rounded-2xl font-semibold text-lg group overflow-hidden transition-transform duration-200 active:scale-[0.96] shadow-[0_10px_30px_rgba(37,211,102,0.35)]"
-                    >
-                        {/* DEPARTURE DOT */}
-                        <span className="absolute left-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-black opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-active:opacity-100" />
+                    <WhatsAppCTA />
 
-                        {/* ROUTE LINE */}
-                        <span className="absolute left-6 right-6 top-1/2 h-[2px] -translate-y-1/2 bg-black/40 scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100" />
-
-                        {/* ICON */}
-                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-2 group-active:scale-90" />
-
-                        {/* TEXT */}
-                        <span className="relative z-10 tracking-wide">
-                            Book on WhatsApp
-                          </span>
-                    </a>
 
 
 
