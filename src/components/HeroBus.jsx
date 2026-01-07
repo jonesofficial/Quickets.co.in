@@ -21,6 +21,13 @@ export default function HeroBus() {
       "
         >
             {/* ================= BACKGROUND EFFECT ================= */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <LightPillar
+                    topColor="#ffe047"
+                    bottomColor="#f2cd1c"
+                    intensity={1.2}
+                    glowAmount={0.001} />
+            </div>
 
             {/* ================= HERO VISUAL STACK ================= */}
             <div className="relative z-10 flex justify-center mt-35 md:mt-5">
