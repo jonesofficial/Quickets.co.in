@@ -175,7 +175,7 @@
 import bus from "../assets/bus.png";
 import heroBg from "../assets/hero-bg.jpg";
 import { FaWhatsapp } from "react-icons/fa";
-import WhatsAppCTA from "@/components/WhatsAppCTA";
+import WhatsAppCTA from "../components/WhatsappCTA.jsx";
 
 
 export default function HeroBus() {
