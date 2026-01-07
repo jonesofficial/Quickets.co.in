@@ -216,22 +216,23 @@ export default function HeroBus() {
 
                     <a
                         href="https://wa.me/918300984737?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
-                        className="relative overflow-hidden mt-8 inline-flex items-center gap-3 bg-[#25D366] text-black px-9 py-4 rounded-2xl font-semibold text-lg group transition-transform duration-200 active:scale-[0.96] shadow-[0_10px_30px_rgba(37,211,102,0.35)]"
+                        className="relative mt-8 inline-flex items-center gap-3 bg-[#25D366] text-black px-9 py-4 rounded-2xl font-semibold text-lg group overflow-hidden transition-transform duration-200 active:scale-[0.96] shadow-[0_10px_30px_rgba(37,211,102,0.35)]"
                     >
-                        {/* TICKET STRIP */}
-                        <span className="absolute left-[-120%] top-0 h-full w-[120%] bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,0.35),rgba(255,255,255,0.35)_10px,rgba(255,255,255,0.15)_10px,rgba(255,255,255,0.15)_20px)] transition-all duration-700 ease-out group-hover:left-0 group-active:left-0" />
+                        {/* DEPARTURE DOT */}
+                        <span className="absolute left-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-black opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-active:opacity-100" />
 
                         {/* ROUTE LINE */}
-                        <span className="absolute bottom-2 left-6 right-6 h-[2px] bg-black/30 scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
+                        <span className="absolute left-6 right-6 top-1/2 h-[2px] -translate-y-1/2 bg-black/40 scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100" />
 
                         {/* ICON */}
-                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-2 group-hover:-rotate-3 group-active:scale-90" />
+                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-2 group-active:scale-90" />
 
                         {/* TEXT */}
                         <span className="relative z-10 tracking-wide">
                             Book on WhatsApp
-                        </span>
+                          </span>
                     </a>
+
 
 
                     <p className="mt-2 text-sm opacity-60">
