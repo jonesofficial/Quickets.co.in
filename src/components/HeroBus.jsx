@@ -172,7 +172,6 @@
 //     );
 // }
 
-
 import bus from "../assets/bus.png";
 import heroBg from "../assets/hero-bg.jpg";
 import { FaWhatsapp } from "react-icons/fa";
@@ -189,38 +188,23 @@ export default function HeroBus() {
             <div className="absolute inset-0 z-10 bg-black/55" />
             <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_35%,rgba(0,0,0,0.85)_80%)]" />
 
-            {/* ================= HERO ================= */}
+            {/* HERO */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
-                {/* TICKET */}
                 <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
                     TICKET
                 </h1>
 
-                {/* BOOKING + BUS (ANCHOR GROUP) */}
+                {/* BOOKING + BUS */}
                 <div className="relative inline-block">
-
-                    {/* BOOKING */}
                     <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68]">
                         BOOKING
                     </h1>
 
-                    {/* BUS FLOATING ON TEXT */}
                     <img
                         src={bus}
                         alt="Bus"
-                        className="
-              absolute
-              left-1/2
-              -translate-x-1/2
-              -translate-y-1/2
-
-              top-[55%] md:top-[52%]
-
-              w-[300px] md:w-[560px]
-              pointer-events-none
-              drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-            "
+                        className="absolute left-1/2 top-[55%] md:top-[52%] w-[300px] md:w-[560px] -translate-x-1/2 -translate-y-1/2 pointer-events-none drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]"
                     />
                 </div>
 
@@ -230,67 +214,56 @@ export default function HeroBus() {
                         Book tickets using WhatsApp
                     </p>
 
-            {/*        <a*/}
-            {/*            href="https://wa.me/91XXXXXXXXXX?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"*/}
-            {/*            className="*/}
-            {/*  mt-8 inline-flex items-center gap-2*/}
-            {/*  bg-[#25D366] text-black*/}
-            {/*  px-8 py-4 rounded-xl font-semibold text-lg*/}
-            {/*  transition-all duration-300*/}
-            {/*  hover:scale-105 hover:shadow-[0_0_25px_rgba(37,211,102,0.6)]*/}
-            {/*"*/}
-            {/*        >*/}
-            {/*            <FaWhatsapp />*/}
-            {/*            Book on WhatsApp*/}
-            {/*        </a>*/}
-
                     <a
                         href="https://wa.me/918300984737?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
                         className="
-                            relative overflow-hidden
-                            mt-8 inline-flex items-center gap-3
-                            bg-[#25D366] text-black
-                            px-9 py-4 rounded-2xl font-semibold text-lg
-                            transition-transform duration-150 ease-out
-                            active:scale-[0.96]
-                            focus:outline-none
-                            group
-                            shadow-[0_10px_30px_rgba(37,211,102,0.35)]
-                          "
+    relative overflow-hidden
+    mt-8 inline-flex items-center gap-3
+    bg-[#25D366] text-black
+    px-9 py-4 rounded-2xl
+    font-semibold text-lg
+    group
+    transition-transform duration-200
+    active:scale-[0.96]
+    shadow-[0_10px_30px_rgba(37,211,102,0.35)]
+  "
                     >
-                        {/* RIPPLE LAYER */}
+                        {/* TICKET STRIP */}
                         <span
                             className="
-                          absolute inset-0
-                          bg-white/30
-                          scale-0
-                          group-active:scale-100
-                          transition-transform duration-500
-                          rounded-full
-                        "
+      absolute left-[-120%] top-0 h-full w-[120%]
+      bg-[repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.35),
+        rgba(255,255,255,0.35)_10px,
+        rgba(255,255,255,0.15)_10px,
+        rgba(255,255,255,0.15)_20px
+      )]
+      transition-all duration-700 ease-out
+      group-hover:left-0
+      group-active:left-0
+    "
+                        />
+
+                        {/* ROUTE LINE */}
+                        <span
+                            className="
+      absolute bottom-2 left-6 right-6 h-[2px]
+      bg-black/30
+      scale-x-0
+      origin-left
+      transition-transform duration-500
+      group-hover:scale-x-100
+    "
                         />
 
                         {/* ICON */}
-                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:-rotate-6 group-active:scale-90" />
+                        <FaWhatsapp className="relative z-10 text-xl transition-transform duration-300 group-hover:translate-x-1 group-active:scale-90" />
 
                         {/* TEXT */}
-                        <span className="relative z-10">
+                        <span className="relative z-10 tracking-wide">
     Book on WhatsApp
   </span>
-
-                        {/* GLOW */}
-                        <span
-                            className="
-                              pointer-events-none
-                              absolute -inset-1
-                              rounded-2xl
-                              opacity-0
-                              group-hover:opacity-100
-                              transition-opacity duration-300
-                              blur-xl
-                              bg-[#25D366]/50
-                            "
-                        />
                     </a>
 
 
@@ -303,3 +276,4 @@ export default function HeroBus() {
         </section>
     );
 }
+
