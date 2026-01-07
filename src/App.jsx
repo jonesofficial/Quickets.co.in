@@ -35,35 +35,29 @@ import BookingAvailability from "@/components/BookingAvailability.jsx";
 import FooterContact from "@/components/FooterContact.jsx";
 import Loader from "@/components/Loader.jsx";
 
+import heroBg from "./assets/hero-bg.jpg";
 import "./App.css";
 
 export default function App() {
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        let rafId;
+        const img = new Image();
+        img.src = heroBg;
 
-        const markLoaded = () => {
-            rafId = requestAnimationFrame(() => {
-                setLoaded(true);
-            });
+        const finish = () => {
+            requestAnimationFrame(() => setLoaded(true));
         };
 
-        if (document.readyState === "complete") {
-            markLoaded();
+        if (img.decode) {
+            img.decode().then(finish).catch(finish);
         } else {
-            window.addEventListener("load", markLoaded, { once: true });
+            img.onload = finish;
+            img.onerror = finish;
         }
-
-        return () => {
-            window.removeEventListener("load", markLoaded);
-            if (rafId) cancelAnimationFrame(rafId);
-        };
     }, []);
 
-    if (!loaded) {
-        return <Loader />;
-    }
+    if (!loaded) return <Loader />;
 
     return (
         <div className="min-h-screen bg-black">

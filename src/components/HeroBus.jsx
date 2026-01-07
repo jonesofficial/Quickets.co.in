@@ -96,28 +96,27 @@
 // }
 //
 
-
 import bus from "../assets/bus.png";
-import heroBg from "../assets/hero-bg.jpg"; // ← your nebula image
+import heroBg from "../assets/hero-bg.jpg";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function HeroBus() {
     return (
         <section className="relative h-[100svh] overflow-hidden px-6 pt-24 grid grid-rows-[auto_1fr_auto] items-center">
 
-            {/* ================= BACKGROUND IMAGE ================= */}
+            {/* BACKGROUND IMAGE */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center"
+                className="absolute inset-0 z-0 bg-cover bg-center will-change-transform animate-fadeIn"
                 style={{ backgroundImage: `url(${heroBg})` }}
             />
 
-            {/* ================= DARK OVERLAY ================= */}
+            {/* DARK OVERLAY */}
             <div className="absolute inset-0 z-10 bg-black/55" />
 
-            {/* ================= VIGNETTE ================= */}
+            {/* VIGNETTE */}
             <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_30%,rgba(0,0,0,0.85)_75%)]" />
 
-            {/* ================= HERO TEXT ================= */}
+            {/* HERO TEXT */}
             <div className="relative z-30 flex justify-center mt-24 md:mt-10">
                 <div className="relative text-center leading-none">
 
@@ -129,7 +128,7 @@ export default function HeroBus() {
                         BOOKING
                     </h1>
 
-                    {/* BUS FLOATING */}
+                    {/* BUS */}
                     <img
                         src={bus}
                         alt="Bus"
@@ -144,7 +143,7 @@ export default function HeroBus() {
                 </div>
             </div>
 
-            {/* ================= CTA ================= */}
+            {/* CTA */}
             <div className="relative z-30 flex flex-col items-center -mt-6 md:mt-20 pb-6">
                 <p className="text-[#F2CD1C] font-semibold text-sm md:text-lg">
                     Book tickets using WhatsApp
