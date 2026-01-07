@@ -245,29 +245,29 @@ export default function HeroBus() {
             {/*        </a>*/}
 
                     <a
-                        href="https://wa.me/91XXXXXXXXXX?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
+                        href="https://wa.me/918300984737?text=Hi%20Quickets!%20I%20want%20to%20book%20a%20ticket"
                         className="
-    relative overflow-hidden
-    mt-8 inline-flex items-center gap-3
-    bg-[#25D366] text-black
-    px-9 py-4 rounded-2xl font-semibold text-lg
-    transition-transform duration-150 ease-out
-    active:scale-[0.96]
-    focus:outline-none
-    group
-    shadow-[0_10px_30px_rgba(37,211,102,0.35)]
-  "
+                            relative overflow-hidden
+                            mt-8 inline-flex items-center gap-3
+                            bg-[#25D366] text-black
+                            px-9 py-4 rounded-2xl font-semibold text-lg
+                            transition-transform duration-150 ease-out
+                            active:scale-[0.96]
+                            focus:outline-none
+                            group
+                            shadow-[0_10px_30px_rgba(37,211,102,0.35)]
+                          "
                     >
                         {/* RIPPLE LAYER */}
                         <span
                             className="
-      absolute inset-0
-      bg-white/30
-      scale-0
-      group-active:scale-100
-      transition-transform duration-500
-      rounded-full
-    "
+                          absolute inset-0
+                          bg-white/30
+                          scale-0
+                          group-active:scale-100
+                          transition-transform duration-500
+                          rounded-full
+                        "
                         />
 
                         {/* ICON */}
