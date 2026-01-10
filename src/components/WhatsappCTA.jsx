@@ -26,8 +26,14 @@ import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppCTA() {
     const handleClick = () => {
-        window.open("https://wa.me/918300984737", "_blank", "noopener,noreferrer");
+        const phoneNumber = "918300984737"; // masked
+        const message = "Hi! I want to book a bus ticket with Quickets 🚍🎟️";
+
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank", "noopener,noreferrer");
     };
+
 
     return (
         <button
