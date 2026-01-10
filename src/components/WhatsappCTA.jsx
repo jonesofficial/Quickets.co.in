@@ -27,7 +27,7 @@ import { FaWhatsapp } from "react-icons/fa";
 export default function WhatsAppCTA() {
     const handleClick = () => {
         const phoneNumber = "918300984737"; // masked
-        const message = "Hi! I want to book a bus ticket with Quickets 🚍🎟️";
+        const message = "Hi! I want to book a bus ticket with Quickets";
 
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
