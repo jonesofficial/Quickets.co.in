@@ -78,6 +78,7 @@ export default function BookingAgentCarousel() {
                     border border-[#f2cd1c]/40
                     flex items-center justify-center
                     hover:border-[#f2cd1c] transition"
+                    aria-label="Previous"
                 >
                     <FiChevronLeft size={22} className="text-[#f2cd1c]" />
                 </button>
@@ -89,6 +90,7 @@ export default function BookingAgentCarousel() {
                     border border-[#f2cd1c]/40
                     flex items-center justify-center
                     hover:border-[#f2cd1c] transition"
+                    aria-label="Next"
                 >
                     <FiChevronRight size={22} className="text-[#f2cd1c]" />
                 </button>
@@ -97,21 +99,25 @@ export default function BookingAgentCarousel() {
         </section>
     );
 }
-
 function Slide({ data, center }) {
     return (
-        <div
-            className={`w-[320px] md:w-[360px]
-            transition-all duration-700 ease-in-out
-            ${center ? "scale-[1.05]" : "scale-100"}`}
-        >
+        <div className="w-[320px] md:w-[360px] transition-all duration-700 ease-in-out">
             <div
-                className={`bg-black rounded-3xl px-8 py-10 border
+                className={`relative bg-black rounded-3xl px-8 py-10 border overflow-hidden
                 ${center
-                    ? "border-[#f2cd1c] shadow-[0_0_35px_rgba(242,205,28,0.45)]"
-                    : "border-[#f2cd1c]/30 shadow-[0_0_18px_rgba(242,205,28,0.15)]"
+                    ? "border-[#f2cd1c] shadow-[0_0_45px_rgba(242,205,28,0.55)]"
+                    : "border-[#f2cd1c]/30 shadow-[0_0_20px_rgba(242,205,28,0.2)]"
                 }`}
             >
+                {/* Yellow accent strip */}
+                <div
+                    className={`absolute top-0 left-0 w-full h-[3px]
+                    ${center
+                        ? "bg-[#f2cd1c]"
+                        : "bg-[#f2cd1c]/50"
+                    }`}
+                />
+
                 <p className="text-xs uppercase tracking-widest text-white/60">
                     {data.tag}
                 </p>
@@ -131,7 +137,7 @@ function Slide({ data, center }) {
                 {data.id && (
                     <div className="mt-6 font-mono text-sm tracking-wider
                         bg-black px-4 py-2 rounded-lg
-                        border border-[#f2cd1c]/50
+                        border border-[#f2cd1c]/60
                         text-[#f2cd1c] inline-block">
                         {data.id}
                     </div>
@@ -140,3 +146,4 @@ function Slide({ data, center }) {
         </div>
     );
 }
+
