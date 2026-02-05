@@ -34,7 +34,7 @@ export default function AuthorizationStrip() {
                         <div className="flex items-center gap-3">
                             <span className="text-[#f2cd1c] text-sm">🚆</span>
                             <div>
-                                <p className="text-white text-xs uppercase tracking-wider">
+                                <p className="text-[#f2cd1c] text-xs uppercase tracking-wider">
                                     Train
                                 </p>
 
@@ -70,7 +70,7 @@ export default function AuthorizationStrip() {
                         <div className="flex items-center gap-3">
                             <span className="text-[#f2cd1c] text-sm">🚌</span>
                             <div>
-                                <p className="text-white text-xs uppercase tracking-wider">
+                                <p className="text-[#f2cd1c] text-xs uppercase tracking-wider">
                                     Bus
                                 </p>
 
