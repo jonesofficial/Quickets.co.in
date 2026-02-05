@@ -375,6 +375,20 @@ body {
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes revealFromBottom {
+    0% {
+        clip-path: inset(100% 0 0 0);
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.reveal-mask {
+    animation: revealFromBottom 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -57,7 +57,6 @@
 //         </section>
 //     );
 // }
-
 import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
@@ -66,24 +65,18 @@ import WhatsAppCTA from "../components/WhatsappCTA.jsx";
 
 export default function HeroBus() {
     const vehicles = [
-        {
-            id: "bus",
-            image: bus,
-            label: "Bus Booking",
-        },
-        {
-            id: "train",
-            image: train,
-            label: "Train Booking",
-        },
+        { id: "bus", image: bus, label: "Bus Booking" },
+        { id: "train", image: train, label: "Train Booking" },
     ];
 
     const [active, setActive] = useState(0);
+    const [key, setKey] = useState(0); // forces re-animation
 
-    // ⏱ 5 SECOND GAP
+    // ⏱ 5 SECOND SWITCH
     useEffect(() => {
         const interval = setInterval(() => {
             setActive((prev) => (prev + 1) % vehicles.length);
+            setKey((k) => k + 1); // retrigger mask
         }, 5000);
 
         return () => clearInterval(interval);
@@ -103,7 +96,6 @@ export default function HeroBus() {
             {/* HERO */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
-                {/* TITLE */}
                 <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
                     TICKET
                 </h1>
@@ -115,35 +107,23 @@ export default function HeroBus() {
                 {/* VEHICLE STAGE */}
                 <div className="relative mt-6 md:mt-10 w-full max-w-5xl h-[220px] md:h-[380px]">
 
-                    {vehicles.map((v, index) => {
-                        const isActive = index === active;
-
-                        return (
-                            <img
-                                key={v.id}
-                                src={v.image}
-                                alt={v.label}
-                                className={`
-                                    absolute left-1/2 bottom-0
-                                    -translate-x-1/2
-                                    w-[280px] md:w-[560px]
-                                    pointer-events-none
-                                    drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-
-                                    transition-all duration-[800ms] ease-out
-                                    ${isActive
-                                    ? "opacity-100 translate-y-0"
-                                    : "opacity-0 translate-y-[20px]"
-                                }
-                                `}
-                            />
-                        );
-                    })}
-
+                    <img
+                        key={key}
+                        src={vehicles[active].image}
+                        alt={vehicles[active].label}
+                        className="
+                            absolute left-1/2 bottom-0
+                            -translate-x-1/2
+                            w-[280px] md:w-[560px]
+                            pointer-events-none
+                            drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
+                            reveal-mask
+                        "
+                    />
                 </div>
 
-                {/* CONTEXT TEXT (changes with vehicle) */}
-                <p className="mt-6 text-[#F2CD1C] font-semibold text-sm md:text-lg transition-opacity duration-500">
+                {/* CONTEXT */}
+                <p className="mt-6 text-[#F2CD1C] font-semibold text-sm md:text-lg">
                     {vehicles[active].label} via WhatsApp
                 </p>
 
@@ -159,4 +139,3 @@ export default function HeroBus() {
         </section>
     );
 }
-
