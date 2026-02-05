@@ -1,19 +1,39 @@
+import useScrollReveal from "../hooks/useScrollReveal";
+
 export default function AuthorizationStrip() {
+    const titleRef = useScrollReveal();
+    const stripRef = useScrollReveal();
+    const trainRef = useScrollReveal();
+    const busRef = useScrollReveal();
+    const footnoteRef = useScrollReveal();
+
     return (
         <section className="bg-black py-10 px-6">
             <div className="max-w-4xl mx-auto">
 
                 {/* Title */}
-                <h3 className="text-center text-white text-xl font-heading mb-6">
+                <h3
+                    ref={titleRef}
+                    className="reveal reveal-up text-center text-white text-3xl font-heading mb-6"
+                >
                     Authorized Booking
                     <span className="text-[#f2cd1c]"> Providers</span>
                 </h3>
 
                 {/* Strip */}
-                <div className="border border-[#f2cd1c]/30 rounded-xl px-6 py-5">
+                <div
+                    ref={stripRef}
+                    className="reveal reveal-up delay-1
+                    border border-[#f2cd1c]/30 rounded-xl px-6 py-5"
+                >
 
                     {/* Train */}
-                    <div className="flex items-center justify-between py-3 border-b border-[#f2cd1c]/20">
+                    <div
+                        ref={trainRef}
+                        className="reveal reveal-up delay-2
+                        flex items-center justify-between py-3
+                        border-b border-[#f2cd1c]/20"
+                    >
                         <div className="flex items-center gap-3">
                             <span className="text-[#f2cd1c] text-sm">🚆</span>
                             <div>
@@ -27,10 +47,12 @@ export default function AuthorizationStrip() {
                                     </p>
 
                                     {/* Green Stamp */}
-                                    <span className="text-[10px] font-semibold
+                                    <span
+                                        className="text-[10px] font-semibold
                                         px-2 py-[2px] rounded-full
                                         bg-green-600/15 text-green-400
-                                        border border-green-500/40">
+                                        border border-green-500/40"
+                                    >
                                         ✔ Authorized
                                     </span>
                                 </div>
@@ -43,7 +65,11 @@ export default function AuthorizationStrip() {
                     </div>
 
                     {/* Bus */}
-                    <div className="flex items-center justify-between py-3">
+                    <div
+                        ref={busRef}
+                        className="reveal reveal-up delay-3
+                        flex items-center justify-between py-3"
+                    >
                         <div className="flex items-center gap-3">
                             <span className="text-[#f2cd1c] text-sm">🚌</span>
                             <div>
@@ -57,10 +83,12 @@ export default function AuthorizationStrip() {
                                     </p>
 
                                     {/* Green Stamp */}
-                                    <span className="text-[10px] font-semibold
+                                    <span
+                                        className="text-[10px] font-semibold
                                         px-2 py-[2px] rounded-full
                                         bg-green-600/15 text-green-400
-                                        border border-green-500/40">
+                                        border border-green-500/40"
+                                    >
                                         ✔ Authorized
                                     </span>
                                 </div>
@@ -75,7 +103,11 @@ export default function AuthorizationStrip() {
                 </div>
 
                 {/* Footnote */}
-                <p className="mt-4 text-center text-white/50 text-xs">
+                <p
+                    ref={footnoteRef}
+                    className="reveal reveal-up delay-4
+                    mt-4 text-center text-white/50 text-xs"
+                >
                     Verify agent credentials on WhatsApp before payment.
                 </p>
 
