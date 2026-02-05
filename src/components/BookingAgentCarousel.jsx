@@ -46,7 +46,7 @@ export default function BookingAgentCarousel() {
         slides[(centerIndex + offset + slides.length) % slides.length];
 
     return (
-        <section className="bg-black py-24 px-6 overflow-hidden">
+        <section className="bg-white py-24 px-6 overflow-hidden">
             <div className="max-w-6xl mx-auto relative">
 
                 {/* Heading */}
