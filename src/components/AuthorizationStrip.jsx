@@ -12,13 +12,10 @@ export default function AuthorizationStrip() {
             <div className="max-w-4xl mx-auto">
 
                 {/* Title */}
-                <h3
-                    ref={titleRef}
-                    className="reveal reveal-up text-center text-white text-3xl font-heading mb-6"
-                >
+                <h2 ref={titleRef} className="reveal reveal-up font-heading text-3xl md:text-5xl text-center leading-tight">
                     Authorized Booking
                     <span className="text-[#f2cd1c]"> Providers</span>
-                </h3>
+                </h2>
 
                 {/* Strip */}
                 <div
