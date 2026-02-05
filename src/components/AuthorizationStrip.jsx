@@ -4,7 +4,7 @@ export default function AuthorizationStrip() {
             <div className="max-w-4xl mx-auto">
 
                 {/* Title */}
-                <h3 className="text-center text-white text-lg font-semibold mb-6">
+                <h3 className="text-center text-white text-xl font-heading mb-6">
                     Authorized Booking
                     <span className="text-[#f2cd1c]"> Providers</span>
                 </h3>
@@ -61,7 +61,7 @@ export default function AuthorizationStrip() {
                                         px-2 py-[2px] rounded-full
                                         bg-green-600/15 text-green-400
                                         border border-green-500/40">
-                                        ✔ Verified
+                                        ✔ Authorized
                                     </span>
                                 </div>
                             </div>
