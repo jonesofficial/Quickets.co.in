@@ -58,12 +58,37 @@
 //     );
 // }
 
+import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
 import heroBg from "../assets/hero-bg.jpg";
 import WhatsAppCTA from "../components/WhatsappCTA.jsx";
 
 export default function HeroBus() {
+    const vehicles = [
+        {
+            id: "bus",
+            image: bus,
+            label: "Bus Booking",
+        },
+        {
+            id: "train",
+            image: train,
+            label: "Train Booking",
+        },
+    ];
+
+    const [active, setActive] = useState(0);
+
+    // ⏱ 5 SECOND GAP
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActive((prev) => (prev + 1) % vehicles.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section className="relative h-[100svh] overflow-hidden px-6 pt-28 md:pt-24">
 
@@ -78,49 +103,53 @@ export default function HeroBus() {
             {/* HERO */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
+                {/* TITLE */}
                 <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
                     TICKET
                 </h1>
 
-                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68] relative">
+                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68]">
                     BOOKING
                 </h1>
 
-                {/* VEHICLE COMPOSITION */}
-                <div className="relative w-full max-w-6xl mt-4 md:mt-8 h-[220px] md:h-[380px]">
+                {/* VEHICLE STAGE */}
+                <div className="relative mt-6 md:mt-10 w-full max-w-5xl h-[220px] md:h-[380px]">
 
-                    {/* BUS */}
-                    <img
-                        src={bus}
-                        alt="Bus Booking"
-                        className="
-                            absolute left-0 md:left-[5%] bottom-0
-                            w-[260px] md:w-[480px]
-                            drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-                        "
-                    />
+                    {vehicles.map((v, index) => {
+                        const isActive = index === active;
 
-                    {/* TRAIN */}
-                    <img
-                        src={train}
-                        alt="Train Booking"
-                        className="
-                            absolute right-0 md:right-[5%] bottom-0
-                            w-[300px] md:w-[560px]
-                            drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-                        "
-                    />
+                        return (
+                            <img
+                                key={v.id}
+                                src={v.image}
+                                alt={v.label}
+                                className={`
+                                    absolute left-1/2 bottom-0
+                                    -translate-x-1/2
+                                    w-[280px] md:w-[560px]
+                                    pointer-events-none
+                                    drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
+
+                                    transition-all duration-[800ms] ease-out
+                                    ${isActive
+                                    ? "opacity-100 translate-y-0"
+                                    : "opacity-0 translate-y-[20px]"
+                                }
+                                `}
+                            />
+                        );
+                    })}
 
                 </div>
 
+                {/* CONTEXT TEXT (changes with vehicle) */}
+                <p className="mt-6 text-[#F2CD1C] font-semibold text-sm md:text-lg transition-opacity duration-500">
+                    {vehicles[active].label} via WhatsApp
+                </p>
+
                 {/* CTA */}
-                <div className="mt-12 md:mt-16 flex flex-col items-center">
-                    <p className="text-[#F2CD1C] font-semibold text-sm md:text-lg">
-                        Book bus & train tickets using WhatsApp
-                    </p>
-
+                <div className="mt-6 flex flex-col items-center">
                     <WhatsAppCTA />
-
                     <p className="mt-2 text-sm opacity-60">
                         You chat. We book.
                     </p>
@@ -130,3 +159,4 @@ export default function HeroBus() {
         </section>
     );
 }
+
