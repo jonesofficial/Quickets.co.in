@@ -1,60 +1,82 @@
 export default function AuthorizationStrip() {
     return (
-        <section className="bg-black py-20 px-6">
-            <div className="max-w-5xl mx-auto">
+        <section className="bg-black py-10 px-6">
+            <div className="max-w-4xl mx-auto">
 
-                {/* Heading */}
-                <h2 className="font-heading text-center text-3xl md:text-4xl text-white mb-12">
+                {/* Title */}
+                <h3 className="text-center text-white text-lg font-semibold mb-6">
                     Authorized Booking
                     <span className="text-[#f2cd1c]"> Providers</span>
-                </h2>
+                </h3>
 
                 {/* Strip */}
-                <div className="border border-[#f2cd1c]/40 rounded-2xl px-8 py-10">
+                <div className="border border-[#f2cd1c]/30 rounded-xl px-6 py-5">
 
                     {/* Train */}
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-6 border-b border-[#f2cd1c]/20">
-                        <div className="flex items-center gap-4">
-                            <span className="text-[#f2cd1c] text-xl">🚆</span>
+                    <div className="flex items-center justify-between py-3 border-b border-[#f2cd1c]/20">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[#f2cd1c] text-sm">🚆</span>
                             <div>
-                                <p className="text-white text-sm uppercase tracking-wider">
-                                    Train Booking
+                                <p className="text-white text-xs uppercase tracking-wider">
+                                    Train
                                 </p>
-                                <p className="text-white text-lg font-semibold">
-                                    TravelIQ
-                                </p>
+
+                                <div className="flex items-center gap-2">
+                                    <p className="text-white text-sm font-medium">
+                                        TravelIQ
+                                    </p>
+
+                                    {/* Green Stamp */}
+                                    <span className="text-[10px] font-semibold
+                                        px-2 py-[2px] rounded-full
+                                        bg-green-600/15 text-green-400
+                                        border border-green-500/40">
+                                        ✔ Authorized
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="text-white/70 text-sm">
+                        <p className="text-white/60 text-xs">
                             IRCTC Authorized PSP
-                        </div>
+                        </p>
                     </div>
 
                     {/* Bus */}
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-6">
-                        <div className="flex items-center gap-4">
-                            <span className="text-[#f2cd1c] text-xl">🚌</span>
+                    <div className="flex items-center justify-between py-3">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[#f2cd1c] text-sm">🚌</span>
                             <div>
-                                <p className="text-white text-sm uppercase tracking-wider">
-                                    Bus Booking
+                                <p className="text-white text-xs uppercase tracking-wider">
+                                    Bus
                                 </p>
-                                <p className="text-white text-lg font-semibold">
-                                    SeatSeller
-                                </p>
+
+                                <div className="flex items-center gap-2">
+                                    <p className="text-white text-sm font-medium">
+                                        SeatSeller
+                                    </p>
+
+                                    {/* Green Stamp */}
+                                    <span className="text-[10px] font-semibold
+                                        px-2 py-[2px] rounded-full
+                                        bg-green-600/15 text-green-400
+                                        border border-green-500/40">
+                                        ✔ Verified
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="text-white/70 text-sm">
+                        <p className="text-white/60 text-xs">
                             Official Bus Aggregator
-                        </div>
+                        </p>
                     </div>
 
                 </div>
 
                 {/* Footnote */}
-                <p className="mt-6 text-center text-white/60 text-sm">
-                    You can verify agent credentials on WhatsApp before making any payment.
+                <p className="mt-4 text-center text-white/50 text-xs">
+                    Verify agent credentials on WhatsApp before payment.
                 </p>
 
             </div>
