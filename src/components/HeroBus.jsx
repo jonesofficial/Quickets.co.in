@@ -57,7 +57,6 @@
 //         </section>
 //     );
 // }
-
 import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
@@ -73,10 +72,11 @@ export default function HeroBus() {
 
     const [active, setActive] = useState(0);
 
+    // ⏱ 10 SECOND AUTO SWITCH
     useEffect(() => {
         const interval = setInterval(() => {
             setActive((prev) => (prev + 1) % vehicles.length);
-        }, 5000);
+        }, 10000); // 10s
 
         return () => clearInterval(interval);
     }, []);
@@ -113,25 +113,37 @@ export default function HeroBus() {
                     </h1>
 
                     {/* VEHICLE LAYER */}
-                    <div className="absolute left-1/2 top-[55%] md:top-[52%] -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[580px] h-[200px] md:h-[360px]">
+                    <div
+                        className="absolute left-1/2 top-[55%] md:top-[52%]
+                        -translate-x-1/2 -translate-y-1/2
+                        w-[320px] md:w-[580px] h-[200px] md:h-[360px]"
+                    >
 
-                        {vehicles.map((v, index) => (
-                            <img
-                                key={v.type}
-                                src={v.image}
-                                alt={v.alt}
-                                className={`
-                                    absolute inset-0 w-full h-auto
-                                    transition-all duration-700 ease-in-out
-                                    pointer-events-none
-                                    drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-                                    ${index === active
-                                    ? "opacity-100 translate-y-0"
-                                    : "opacity-0 translate-y-6"
-                                }
-                                `}
-                            />
-                        ))}
+                        {vehicles.map((v, index) => {
+                            const isActive = index === active;
+
+                            return (
+                                <img
+                                    key={v.type}
+                                    src={v.image}
+                                    alt={v.alt}
+                                    className={`
+                                        absolute inset-0 w-full h-auto
+                                        pointer-events-none
+                                        drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
+
+                                        transition-all
+                                        duration-[1600ms]
+                                        ease-[cubic-bezier(0.19,1,0.22,1)]
+
+                                        ${isActive
+                                        ? "opacity-100 translate-y-0 scale-100 blur-0"
+                                        : "opacity-0 translate-y-[80px] scale-[0.82] blur-[8px]"
+                                    }
+                                    `}
+                                />
+                            );
+                        })}
 
                     </div>
 
