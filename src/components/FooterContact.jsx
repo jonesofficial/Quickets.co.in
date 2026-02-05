@@ -46,7 +46,10 @@ export default function FooterContact() {
                                 🚌 Bus Booking
                                 <span className="text-green-500 text-xs font-semibold">● Live</span>
                             </li>
-                            <li className="opacity-60">🚆 Train Booking (Coming soon)</li>
+                            <li className="flex items-center justify-center gap-2">
+                                🚆 Train Booking
+                                <span className="text-green-500 text-xs font-semibold">● Live</span>
+                            </li>
                             <li className="opacity-60">✈️ Flight Booking (Coming soon)</li>
                         </ul>
                     </div>
