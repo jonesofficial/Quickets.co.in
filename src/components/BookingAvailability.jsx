@@ -46,18 +46,20 @@ export default function BookingAvailability() {
                         </div>
 
                         {/* TRAIN — IN PROGRESS */}
+                        {/* TRAIN — LIVE */}
                         <div ref={trainRef} className="timeline-item timeline-up relative flex items-start gap-4 mb-10">
-                            <div className="z-10 w-4 h-4 rounded-full border border-gray-400 bg-white"></div>
+                            <div className="z-10 w-4 h-4 rounded-full bg-[#f2cd1c] shadow-[0_0_12px_rgba(242,205,28,0.7)]"></div>
                             <div>
-                                <h3 className="text-xl font-semibold text-gray-500">
+                                <h3 className="text-xl font-semibold flex items-center gap-2">
                                     🚆 Train Booking
+                                    <span className="text-xs font-semibold text-green-600">● Live</span>
                                 </h3>
-                                <p className="mt-1 text-sm text-gray-500 max-w-md">
-                                    Currently in development.
+                                <p className="mt-1 text-sm text-gray-600 max-w-md">
+                                    Book train tickets easily through WhatsApp.
                                 </p>
-                                <span className="text-xs text-[#f2cd1c]">In progress</span>
                             </div>
                         </div>
+
 
                         {/* FLIGHT — COMING SOON */}
                         <div ref={flightRef} className="timeline-item timeline-right relative flex items-start gap-4">
