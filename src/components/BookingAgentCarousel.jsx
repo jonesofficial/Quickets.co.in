@@ -45,10 +45,6 @@ export default function BookingAgentCarousel() {
     const getSlide = (offset) =>
         slides[(centerIndex + offset + slides.length) % slides.length];
 
-    const left = getSlide(-1);
-    const center = getSlide(0);
-    const right = getSlide(1);
-
     return (
         <section className="bg-black py-24 px-6 overflow-hidden">
             <div className="max-w-6xl mx-auto relative">
@@ -64,18 +60,14 @@ export default function BookingAgentCarousel() {
                 </p>
 
                 {/* Slides */}
-                <div className="flex items-center justify-center gap-8">
+                <div className="flex items-center justify-center gap-10">
 
-                    <Slide data={left} scale="scale-90" opacity="opacity-60" />
+                    <Slide data={getSlide(-1)} />
 
-                    <Slide
-                        data={center}
-                        scale="scale-100"
-                        opacity="opacity-100"
-                        highlight
-                    />
+                    <Slide data={getSlide(0)} center />
 
-                    <Slide data={right} scale="scale-90" opacity="opacity-60" />
+                    <Slide data={getSlide(1)} />
+
                 </div>
 
                 {/* Controls */}
@@ -83,10 +75,9 @@ export default function BookingAgentCarousel() {
                     onClick={rotateLeft}
                     className="absolute left-0 top-1/2 -translate-y-1/2
                     w-11 h-11 rounded-full bg-black
-                    border border-[#f2cd1c]/50
+                    border border-[#f2cd1c]/40
                     flex items-center justify-center
                     hover:border-[#f2cd1c] transition"
-                    aria-label="Previous"
                 >
                     <FiChevronLeft size={22} className="text-[#f2cd1c]" />
                 </button>
@@ -95,10 +86,9 @@ export default function BookingAgentCarousel() {
                     onClick={rotateRight}
                     className="absolute right-0 top-1/2 -translate-y-1/2
                     w-11 h-11 rounded-full bg-black
-                    border border-[#f2cd1c]/50
+                    border border-[#f2cd1c]/40
                     flex items-center justify-center
                     hover:border-[#f2cd1c] transition"
-                    aria-label="Next"
                 >
                     <FiChevronRight size={22} className="text-[#f2cd1c]" />
                 </button>
@@ -108,17 +98,18 @@ export default function BookingAgentCarousel() {
     );
 }
 
-function Slide({ data, scale, opacity, highlight }) {
+function Slide({ data, center }) {
     return (
         <div
-            className={`w-[300px] md:w-[340px] transition-all duration-700
-            ${scale} ${opacity}`}
+            className={`w-[320px] md:w-[360px]
+            transition-all duration-700 ease-in-out
+            ${center ? "scale-[1.05]" : "scale-100"}`}
         >
             <div
-                className={`bg-black border rounded-3xl px-8 py-10
-                ${highlight
-                    ? "border-[#f2cd1c]"
-                    : "border-[#f2cd1c]/30"
+                className={`bg-black rounded-3xl px-8 py-10 border
+                ${center
+                    ? "border-[#f2cd1c] shadow-[0_0_35px_rgba(242,205,28,0.45)]"
+                    : "border-[#f2cd1c]/30 shadow-[0_0_18px_rgba(242,205,28,0.15)]"
                 }`}
             >
                 <p className="text-xs uppercase tracking-widest text-white/60">
