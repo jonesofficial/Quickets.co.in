@@ -34,6 +34,7 @@ import LanguageSupport from "@/components/LanguageSupport.jsx";
 import BookingAvailability from "@/components/BookingAvailability.jsx";
 import FooterContact from "@/components/FooterContact.jsx";
 import Loader from "@/components/Loader.jsx";
+import BookingAgentCarousel from "@/components/BookingAgentCarousel.jsx";
 
 import heroBg from "./assets/hero-bg.jpg";
 import "./App.css";
@@ -68,6 +69,7 @@ export default function App() {
             <WhoIsItFor />
             <LanguageSupport />
             <BookingAvailability />
+            <BookingAgentCarousel/>
             <FooterContact />
         </div>
     );
