@@ -259,7 +259,7 @@ export default function HeroBus() {
                         top-[52%] sm:top-[48%] md:top-[13%] xl:top-[10%]
                         -translate-x-1/2
                         w-full max-w-6xl
-                        h-[240px] sm:h-[260px] md:h-[300px] xl:h-[340px]
+                        h-[240px] sm:h-[260px] md:h-[200px] xl:h-[240px]
                         overflow-hidden
                         z-40
                     "
