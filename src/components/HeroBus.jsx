@@ -243,6 +243,7 @@
 //         </section>
 //     );
 // }
+
 import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
@@ -281,7 +282,9 @@ export default function HeroBus() {
 
     const prev = () => {
         setIsTransitioning(true);
-        setIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+        setIndex((prev) =>
+            prev === 0 ? slides.length - 1 : prev - 1
+        );
     };
 
     const next = () => {
@@ -322,14 +325,13 @@ export default function HeroBus() {
                             absolute left-1/2
                             top-1/2 md:top-[13%] xl:top-[10%]
                             -translate-x-1/2
-                            -translate-y-[18%] sm:-translate-y-[10%] md:translate-y-0
+                            -translate-y-[34%] sm:-translate-y-[18%] md:translate-y-0
                             w-full max-w-6xl
                             h-[220px] sm:h-[250px] md:h-[300px] xl:h-[340px]
                             overflow-hidden
                             z-40
                         "
                     >
-                        {/* TRACK */}
                         <div
                             className={`flex h-full ${
                                 isTransitioning
@@ -347,7 +349,7 @@ export default function HeroBus() {
                                         src={slide.image}
                                         alt={slide.id}
                                         className="
-                                            w-[260px] sm:w-[320px] md:w-[500px] xl:w-[600px]
+                                            w-[300px] sm:w-[340px] md:w-[500px] xl:w-[600px]
                                             pointer-events-none
                                             animate-[floatSlow_7s_ease-in-out_infinite]
                                         "
@@ -392,7 +394,7 @@ export default function HeroBus() {
                 {/* TRAVEL RAIL */}
                 <div className="mt-20 flex items-center gap-4 text-[#F2CD1C] text-xs tracking-widest uppercase">
                     <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
-                    <span>Flights • Trains • Buses</span>
+                    <span>FLIGHTS • TRAINS • BUSES</span>
                     <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
                 </div>
 
@@ -416,3 +418,4 @@ export default function HeroBus() {
         </section>
     );
 }
+
