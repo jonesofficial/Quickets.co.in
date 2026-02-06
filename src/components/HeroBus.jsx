@@ -394,7 +394,7 @@ export default function HeroBus() {
                 {/* TRAVEL RAIL */}
                 <div className="mt-20 flex items-center gap-4 text-[#F2CD1C] text-xs tracking-widest uppercase">
                     <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
-                    <span>FLIGHTS • TRAINS • BUSES</span>
+                    <span>BUSES • TRAINS • FLIGHTS</span>
                     <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
                 </div>
 
