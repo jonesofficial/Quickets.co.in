@@ -103,20 +103,22 @@ export default function HeroBus() {
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
                 {/* TITLE */}
-                <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
+                <h1 className="font-heading text-[64px] md:text-[110px] leading-none z-10">
                     TICKET
                 </h1>
 
-                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68] relative">
+                {/* BOOKING (BELOW VEHICLE) */}
+                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68] relative z-10">
                     BOOKING
                 </h1>
 
-                {/* CAROUSEL — visually inside BOOKING */}
+                {/* CAROUSEL — FLOATS ABOVE BOOKING */}
                 <div
-                    className="absolute left-1/2 top-[58%] md:top-[55%]
+                    className="absolute left-1/2 top-[55%] md:top-[52%]
                     -translate-x-1/2 -translate-y-1/2
                     w-full max-w-5xl h-[220px] md:h-[380px]
-                    overflow-hidden"
+                    overflow-hidden
+                    z-40"
                 >
 
                     {/* SLIDER */}
@@ -134,8 +136,9 @@ export default function HeroBus() {
                                     alt={slide.label}
                                     className="
                                         w-[280px] md:w-[560px]
+                                        -translate-y-2 md:-translate-y-4
                                         pointer-events-none
-                                        drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
+                                        drop-shadow-[0_40px_45px_rgba(0,0,0,0.9)]
                                     "
                                 />
                             </div>
