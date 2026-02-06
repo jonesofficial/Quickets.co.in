@@ -261,7 +261,6 @@ export default function HeroBus() {
     const [index, setIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(true);
 
-    // ⏱ Auto slide every 10s
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => prev + 1);
@@ -271,7 +270,6 @@ export default function HeroBus() {
         return () => clearInterval(interval);
     }, []);
 
-    // 🔁 Seamless loop
     useEffect(() => {
         if (index === slides.length) {
             setTimeout(() => {
@@ -305,7 +303,6 @@ export default function HeroBus() {
             {/* HERO CONTENT */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
-                {/* TITLE STACK */}
                 <div className="relative w-full flex flex-col items-center">
 
                     <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
@@ -314,9 +311,7 @@ export default function HeroBus() {
 
                     <h1
                         className="font-heading text-[132px] md:text-[230px] leading-[0.68]"
-                        style={{
-                            textShadow: "0 20px 40px rgba(0,0,0,0.6)",
-                        }}
+                        style={{ textShadow: "0 20px 40px rgba(0,0,0,0.6)" }}
                     >
                         BOOKING
                     </h1>
@@ -327,7 +322,7 @@ export default function HeroBus() {
                             absolute left-1/2
                             top-1/2 md:top-[13%] xl:top-[10%]
                             -translate-x-1/2
-                            -translate-y-[12%] sm:-translate-y-[8%] md:translate-y-0
+                            -translate-y-[18%] sm:-translate-y-[10%] md:translate-y-0
                             w-full max-w-6xl
                             h-[220px] sm:h-[250px] md:h-[300px] xl:h-[340px]
                             overflow-hidden
@@ -365,7 +360,7 @@ export default function HeroBus() {
                         <button
                             onClick={prev}
                             className="
-                                absolute left-[6%] sm:left-[10%] md:left-[16%]
+                                absolute left-4 md:left-8
                                 top-1/2 -translate-y-1/2
                                 w-9 h-9 md:w-10 md:h-10
                                 rounded-full
@@ -380,7 +375,7 @@ export default function HeroBus() {
                         <button
                             onClick={next}
                             className="
-                                absolute right-[6%] sm:right-[10%] md:right-[16%]
+                                absolute right-4 md:right-8
                                 top-1/2 -translate-y-1/2
                                 w-9 h-9 md:w-10 md:h-10
                                 rounded-full
@@ -411,11 +406,10 @@ export default function HeroBus() {
 
             </div>
 
-            {/* FLOAT ANIMATION */}
             <style>{`
                 @keyframes floatSlow {
-                    0%   { transform: translateY(0) scale(1); }
-                    50%  { transform: translateY(-8px) scale(1.01); }
+                    0% { transform: translateY(0) scale(1); }
+                    50% { transform: translateY(-8px) scale(1.01); }
                     100% { transform: translateY(0) scale(1); }
                 }
             `}</style>
