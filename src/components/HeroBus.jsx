@@ -62,6 +62,7 @@
 // import { useEffect, useState } from "react";
 // import bus from "../assets/bus.png";
 // import train from "../assets/train.png";
+// import flight from "../assets/flight.png";
 // import heroBg from "../assets/hero-bg.jpg";
 // import WhatsAppCTA from "../components/WhatsappCTA.jsx";
 // import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -70,24 +71,41 @@
 //     const slides = [
 //         { id: "bus", image: bus, label: "Bus Booking via WhatsApp" },
 //         { id: "train", image: train, label: "Train Booking via WhatsApp" },
+//         { id: "flight", image: flight, label: "Flight Booking via WhatsApp" },
 //     ];
 //
 //     const [index, setIndex] = useState(0);
+//     const [isTransitioning, setIsTransitioning] = useState(true);
 //
-//     // Auto slide every 5 seconds
+//     // 🔁 Auto slide every 10 seconds
 //     useEffect(() => {
 //         const interval = setInterval(() => {
-//             setIndex((prev) => (prev + 1) % slides.length);
-//         }, 5000);
+//             setIndex((prev) => prev + 1);
+//             setIsTransitioning(true);
+//         }, 10000);
 //
 //         return () => clearInterval(interval);
 //     }, []);
 //
-//     const prev = () =>
-//         setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+//     // ♻️ Seamless loop reset
+//     useEffect(() => {
+//         if (index === slides.length) {
+//             setTimeout(() => {
+//                 setIsTransitioning(false);
+//                 setIndex(0);
+//             }, 900); // must match transition duration
+//         }
+//     }, [index, slides.length]);
 //
-//     const next = () =>
-//         setIndex((prev) => (prev + 1) % slides.length);
+//     const prev = () => {
+//         setIsTransitioning(true);
+//         setIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+//     };
+//
+//     const next = () => {
+//         setIsTransitioning(true);
+//         setIndex((prev) => prev + 1);
+//     };
 //
 //     return (
 //         <section className="relative h-[100svh] overflow-hidden px-6 pt-28 md:pt-24">
@@ -113,37 +131,65 @@
 //                     BOOKING
 //                 </h1>
 //
-//                 {/* CAROUSEL — FLOATS ABOVE BOOKING (FIXED) */}
+//                 {/* CAROUSEL */}
 //                 <div
 //                     className="
 //                         absolute left-1/2
-//                         top-[70%] md:top-[13%]
+//                         top-[52%] sm:top-[48%] md:top-[13%] xl:top-[10%]
 //                         -translate-x-1/2
 //                         w-full max-w-6xl
-//                         h-[278px] md:h-[300px]
+//                         h-[240px] sm:h-[260px] md:h-[300px] xl:h-[340px]
 //                         overflow-hidden
 //                         z-40
 //                     "
 //                 >
-//                     {/* SLIDER */}
+//                     {/* SLIDER TRACK */}
 //                     <div
-//                         className="flex h-full transition-transform duration-[900ms] ease-in-out"
+//                         className={`flex h-full ${
+//                             isTransitioning
+//                                 ? "transition-transform duration-[900ms] ease-in-out"
+//                                 : ""
+//                         }`}
 //                         style={{ transform: `translateX(-${index * 100}%)` }}
 //                     >
-//                         {slides.map((slide) => (
+//                         {[...slides, ...slides].map((slide, i) => (
 //                             <div
-//                                 key={slide.id}
+//                                 key={`${slide.id}-${i}`}
 //                                 className="min-w-full flex items-end justify-center"
 //                             >
+//                                 {/*<img*/}
+//                                 {/*    src={slide.image}*/}
+//                                 {/*    alt={slide.label}*/}
+//                                 {/*    className="*/}
+//                                 {/*        w-[220px] sm:w-[260px] md:w-[500px] xl:w-[580px]*/}
+//                                 {/*        pointer-events-none*/}
+//                                 {/*        drop-shadow-[0_50px_55px_rgba(0,0,0,0.95)]*/}
+//                                 {/*    "*/}
+//                                 {/*/>*/}
+//
 //                                 <img
 //                                     src={slide.image}
 //                                     alt={slide.label}
 //                                     className="
-//                                         w-[300px] md:w-[600px]
+//                                         w-[220px] sm:w-[260px] md:w-[500px] xl:w-[580px]
 //                                         pointer-events-none
-//                                         drop-shadow-[0_50px_55px_rgba(0,0,0,0.95)]
+//                                         drop-shadow-[0_50px_55px_rgba(0,0,0,0.9)]
 //                                     "
+//                                     style={{
+//                                         WebkitMaskImage: `
+//                                             linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
+//                                             linear-gradient(to top, transparent 0%, black 22%, black 100%)
+//                                         `,
+//                                                                         WebkitMaskComposite: "destination-in",
+//                                                                         maskImage: `
+//                                             linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%),
+//                                             linear-gradient(to top, transparent 0%, black 22%, black 100%)
+//                                         `,
+//                                         maskComposite: "intersect",
+//                                     }}
 //                                 />
+//
+//
 //                             </div>
 //                         ))}
 //                     </div>
@@ -152,12 +198,12 @@
 //                     <button
 //                         onClick={prev}
 //                         className="
-//                             absolute left-[8%] md:left-[16%]
+//                             absolute left-[6%] sm:left-[10%] md:left-[16%]
 //                             top-1/2 -translate-y-1/2
-//                             w-10 h-10 rounded-full
+//                             w-9 h-9 md:w-10 md:h-10
+//                             rounded-full
 //                             border border-[#f2cd1c]/40
 //                             flex items-center justify-center
-//                             hover:border-[#f2cd1c] transition
 //                         "
 //                         aria-label="Previous"
 //                     >
@@ -167,12 +213,12 @@
 //                     <button
 //                         onClick={next}
 //                         className="
-//                             absolute right-[8%] md:right-[16%]
+//                             absolute right-[6%] sm:right-[10%] md:right-[16%]
 //                             top-1/2 -translate-y-1/2
-//                             w-10 h-10 rounded-full
+//                             w-9 h-9 md:w-10 md:h-10
+//                             rounded-full
 //                             border border-[#f2cd1c]/40
 //                             flex items-center justify-center
-//                             hover:border-[#f2cd1c] transition
 //                         "
 //                         aria-label="Next"
 //                     >
@@ -181,11 +227,11 @@
 //                 </div>
 //
 //                 {/* CONTEXT TEXT */}
-//                 <p className="mt-24 text-[#F2CD1C] font-semibold text-sm md:text-lg tracking-wide">
-//                     {slides[index].label}
+//                 <p className="mt-12 sm:mt-16 md:mt-24 text-[#F2CD1C] font-semibold text-sm md:text-lg tracking-wide">
+//                     {slides[index % slides.length].label}
 //                 </p>
 //
-//                 {/* CTA — pushed down */}
+//                 {/* CTA */}
 //                 <div className="mt-6 flex flex-col items-center">
 //                     <WhatsAppCTA />
 //                     <p className="mt-2 text-sm opacity-60">
@@ -197,36 +243,53 @@
 //         </section>
 //     );
 // }
-
 import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
+import flight from "../assets/flight.png";
 import heroBg from "../assets/hero-bg.jpg";
 import WhatsAppCTA from "../components/WhatsappCTA.jsx";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function HeroBus() {
     const slides = [
-        { id: "bus", image: bus, label: "Bus Booking via WhatsApp" },
-        { id: "train", image: train, label: "Train Booking via WhatsApp" },
+        { id: "bus", image: bus },
+        { id: "train", image: train },
+        { id: "flight", image: flight },
     ];
 
     const [index, setIndex] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(true);
 
-    // Auto slide every 5 seconds
+    // ⏱ Auto slide every 10s
     useEffect(() => {
         const interval = setInterval(() => {
-            setIndex((prev) => (prev + 1) % slides.length);
-        }, 5000);
+            setIndex((prev) => prev + 1);
+            setIsTransitioning(true);
+        }, 10000);
 
         return () => clearInterval(interval);
     }, []);
 
-    const prev = () =>
-        setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    // 🔁 Seamless loop
+    useEffect(() => {
+        if (index === slides.length) {
+            setTimeout(() => {
+                setIsTransitioning(false);
+                setIndex(0);
+            }, 900);
+        }
+    }, [index, slides.length]);
 
-    const next = () =>
-        setIndex((prev) => (prev + 1) % slides.length);
+    const prev = () => {
+        setIsTransitioning(true);
+        setIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    };
+
+    const next = () => {
+        setIsTransitioning(true);
+        setIndex((prev) => prev + 1);
+    };
 
     return (
         <section className="relative h-[100svh] overflow-hidden px-6 pt-28 md:pt-24">
@@ -242,87 +305,101 @@ export default function HeroBus() {
             {/* HERO CONTENT */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
-                {/* TITLE */}
-                <h1 className="font-heading text-[64px] md:text-[110px] leading-none z-10">
-                    TICKET
-                </h1>
+                {/* TITLE STACK */}
+                <div className="relative w-full flex flex-col items-center">
 
-                {/* BOOKING */}
-                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68] relative z-10">
-                    BOOKING
-                </h1>
+                    <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
+                        TICKET
+                    </h1>
 
-                {/* CAROUSEL — DESKTOP UNCHANGED */}
-                <div
-                    className="
-                        absolute left-1/2
-                        top-[52%] sm:top-[48%] md:top-[13%] xl:top-[10%]
-                        -translate-x-1/2
-                        w-full max-w-6xl
-                        h-[240px] sm:h-[260px] md:h-[200px] xl:h-[240px]
-                        overflow-hidden
-                        z-40
-                    "
-                >
-                    {/* SLIDER */}
+                    <h1
+                        className="font-heading text-[132px] md:text-[230px] leading-[0.68]"
+                        style={{
+                            textShadow: "0 20px 40px rgba(0,0,0,0.6)",
+                        }}
+                    >
+                        BOOKING
+                    </h1>
+
+                    {/* CAROUSEL */}
                     <div
-                        className="flex h-full transition-transform duration-[900ms] ease-in-out"
-                        style={{ transform: `translateX(-${index * 100}%)` }}
+                        className="
+                            absolute left-1/2
+                            top-1/2 md:top-[13%] xl:top-[10%]
+                            -translate-x-1/2
+                            -translate-y-[12%] sm:-translate-y-[8%] md:translate-y-0
+                            w-full max-w-6xl
+                            h-[220px] sm:h-[250px] md:h-[300px] xl:h-[340px]
+                            overflow-hidden
+                            z-40
+                        "
                     >
-                        {slides.map((slide) => (
-                            <div
-                                key={slide.id}
-                                className="min-w-full flex items-end justify-center"
-                            >
-                                <img
-                                    src={slide.image}
-                                    alt={slide.label}
-                                    className="
-                                        w-[220px] sm:w-[260px] md:w-[600px] xl:w-[680px]
-                                        pointer-events-none
-                                        drop-shadow-[0_50px_55px_rgba(0,0,0,0.95)]
-                                    "
-                                />
-                            </div>
-                        ))}
+                        {/* TRACK */}
+                        <div
+                            className={`flex h-full ${
+                                isTransitioning
+                                    ? "transition-transform duration-[900ms] ease-in-out"
+                                    : ""
+                            }`}
+                            style={{ transform: `translateX(-${index * 100}%)` }}
+                        >
+                            {[...slides, ...slides].map((slide, i) => (
+                                <div
+                                    key={`${slide.id}-${i}`}
+                                    className="min-w-full flex items-end justify-center"
+                                >
+                                    <img
+                                        src={slide.image}
+                                        alt={slide.id}
+                                        className="
+                                            w-[260px] sm:w-[320px] md:w-[500px] xl:w-[600px]
+                                            pointer-events-none
+                                            animate-[floatSlow_7s_ease-in-out_infinite]
+                                        "
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* CONTROLS */}
+                        <button
+                            onClick={prev}
+                            className="
+                                absolute left-[6%] sm:left-[10%] md:left-[16%]
+                                top-1/2 -translate-y-1/2
+                                w-9 h-9 md:w-10 md:h-10
+                                rounded-full
+                                border border-[#f2cd1c]/40
+                                flex items-center justify-center
+                                opacity-40 hover:opacity-100 transition
+                            "
+                        >
+                            <FiChevronLeft className="text-[#f2cd1c]" />
+                        </button>
+
+                        <button
+                            onClick={next}
+                            className="
+                                absolute right-[6%] sm:right-[10%] md:right-[16%]
+                                top-1/2 -translate-y-1/2
+                                w-9 h-9 md:w-10 md:h-10
+                                rounded-full
+                                border border-[#f2cd1c]/40
+                                flex items-center justify-center
+                                opacity-40 hover:opacity-100 transition
+                            "
+                        >
+                            <FiChevronRight className="text-[#f2cd1c]" />
+                        </button>
                     </div>
-
-                    {/* CONTROLS */}
-                    <button
-                        onClick={prev}
-                        className="
-                            absolute left-[6%] sm:left-[10%] md:left-[16%]
-                            top-1/2 -translate-y-1/2
-                            w-9 h-9 md:w-10 md:h-10
-                            rounded-full
-                            border border-[#f2cd1c]/40
-                            flex items-center justify-center
-                        "
-                        aria-label="Previous"
-                    >
-                        <FiChevronLeft className="text-[#f2cd1c]" />
-                    </button>
-
-                    <button
-                        onClick={next}
-                        className="
-                            absolute right-[6%] sm:right-[10%] md:right-[16%]
-                            top-1/2 -translate-y-1/2
-                            w-9 h-9 md:w-10 md:h-10
-                            rounded-full
-                            border border-[#f2cd1c]/40
-                            flex items-center justify-center
-                        "
-                        aria-label="Next"
-                    >
-                        <FiChevronRight className="text-[#f2cd1c]" />
-                    </button>
                 </div>
 
-                {/* CONTEXT TEXT */}
-                <p className="mt-12 sm:mt-16 md:mt-24 text-[#F2CD1C] font-semibold text-sm md:text-lg tracking-wide">
-                    {slides[index].label}
-                </p>
+                {/* TRAVEL RAIL */}
+                <div className="mt-20 flex items-center gap-4 text-[#F2CD1C] text-xs tracking-widest uppercase">
+                    <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
+                    <span>Flights • Trains • Buses</span>
+                    <span className="h-[1px] w-10 bg-[#F2CD1C]/60" />
+                </div>
 
                 {/* CTA */}
                 <div className="mt-6 flex flex-col items-center">
@@ -333,6 +410,15 @@ export default function HeroBus() {
                 </div>
 
             </div>
+
+            {/* FLOAT ANIMATION */}
+            <style>{`
+                @keyframes floatSlow {
+                    0%   { transform: translateY(0) scale(1); }
+                    50%  { transform: translateY(-8px) scale(1.01); }
+                    100% { transform: translateY(0) scale(1); }
+                }
+            `}</style>
         </section>
     );
 }
