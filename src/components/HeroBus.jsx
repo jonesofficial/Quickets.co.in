@@ -58,7 +58,6 @@
 //     );
 // }
 //
-
 import { useEffect, useState } from "react";
 import bus from "../assets/bus.png";
 import train from "../assets/train.png";
@@ -68,13 +67,13 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function HeroBus() {
     const slides = [
-        { id: "bus", image: bus, label: "Bus Booking" },
-        { id: "train", image: train, label: "Train Booking" },
+        { id: "bus", image: bus, label: "Bus Booking via WhatsApp" },
+        { id: "train", image: train, label: "Train Booking via WhatsApp" },
     ];
 
     const [index, setIndex] = useState(0);
 
-    // ⏱ Auto slide every 5s
+    // Auto slide every 5 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length);
@@ -100,23 +99,29 @@ export default function HeroBus() {
             <div className="absolute inset-0 z-10 bg-black/55" />
             <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_35%,rgba(0,0,0,0.85)_80%)]" />
 
-            {/* HERO */}
+            {/* HERO CONTENT */}
             <div className="relative z-30 flex flex-col items-center justify-center h-full text-center">
 
+                {/* TITLE */}
                 <h1 className="font-heading text-[64px] md:text-[110px] leading-none">
                     TICKET
                 </h1>
 
-                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68]">
+                <h1 className="font-heading text-[132px] md:text-[230px] leading-[0.68] relative">
                     BOOKING
                 </h1>
 
-                {/* CAROUSEL STAGE */}
-                <div className="relative mt-6 md:mt-10 w-full max-w-5xl h-[220px] md:h-[380px] overflow-hidden">
+                {/* CAROUSEL — visually inside BOOKING */}
+                <div
+                    className="absolute left-1/2 top-[58%] md:top-[55%]
+                    -translate-x-1/2 -translate-y-1/2
+                    w-full max-w-5xl h-[220px] md:h-[380px]
+                    overflow-hidden"
+                >
 
                     {/* SLIDER */}
                     <div
-                        className="flex h-full transition-transform duration-700 ease-in-out"
+                        className="flex h-full transition-transform duration-[900ms] ease-in-out"
                         style={{ transform: `translateX(-${index * 100}%)` }}
                     >
                         {slides.map((slide) => (
@@ -127,9 +132,11 @@ export default function HeroBus() {
                                 <img
                                     src={slide.image}
                                     alt={slide.label}
-                                    className="w-[280px] md:w-[560px]
-                                    drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
-                                    pointer-events-none"
+                                    className="
+                                        w-[280px] md:w-[560px]
+                                        pointer-events-none
+                                        drop-shadow-[0_35px_40px_rgba(0,0,0,0.85)]
+                                    "
                                 />
                             </div>
                         ))}
@@ -138,7 +145,7 @@ export default function HeroBus() {
                     {/* CONTROLS */}
                     <button
                         onClick={prev}
-                        className="absolute left-0 top-1/2 -translate-y-1/2
+                        className="absolute left-[10%] md:left-[18%] top-1/2 -translate-y-1/2
                         w-10 h-10 rounded-full
                         border border-[#f2cd1c]/40
                         flex items-center justify-center
@@ -150,7 +157,7 @@ export default function HeroBus() {
 
                     <button
                         onClick={next}
-                        className="absolute right-0 top-1/2 -translate-y-1/2
+                        className="absolute right-[10%] md:right-[18%] top-1/2 -translate-y-1/2
                         w-10 h-10 rounded-full
                         border border-[#f2cd1c]/40
                         flex items-center justify-center
@@ -161,9 +168,9 @@ export default function HeroBus() {
                     </button>
                 </div>
 
-                {/* LABEL */}
-                <p className="mt-6 text-[#F2CD1C] font-semibold text-sm md:text-lg">
-                    {slides[index].label} via WhatsApp
+                {/* CONTEXT TEXT */}
+                <p className="mt-16 text-[#F2CD1C] font-semibold text-sm md:text-lg tracking-wide">
+                    {slides[index].label}
                 </p>
 
                 {/* CTA */}
