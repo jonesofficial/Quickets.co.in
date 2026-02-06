@@ -114,7 +114,7 @@ export default function HeroBus() {
 
                 {/* CAROUSEL — FLOATS ABOVE BOOKING */}
                 <div
-                    className="absolute left-1/2 top-[55%] md:top-[52%]
+                    className="absolute left-1/2 top-[65%] md:top-[52%]
                     -translate-x-1/2 -translate-y-1/2
                     w-full max-w-5xl h-[220px] md:h-[380px]
                     overflow-hidden
